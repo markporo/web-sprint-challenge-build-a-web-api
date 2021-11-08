@@ -1,6 +1,6 @@
 // add middlewares here related to actions
 const actionsModel = require("./actions-model")
-module.exports = { logger, validateId }
+module.exports = { logger, validateId, validateAction }
 
 
 function logger(req, res, next) {
@@ -28,3 +28,11 @@ function validateId(req, res, next) {
         })
 }
 
+function validateAction(req, res, next) {
+    // DO YOUR MAGIC
+    if (!req.body.project_id || !req.body.description || !req.body.notes) {
+        res.status(400).json({ message: "missing a required field" })
+    } else {
+        next();
+    }
+}
