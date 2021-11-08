@@ -1,6 +1,7 @@
 // add middlewares here related to actions
 const actionsModel = require("./actions-model")
-module.exports = { logger, validateId, validateAction }
+const projectsModel = require('../projects/projects-model')
+module.exports = { logger, validateId, validateAction, validateProjectID }
 
 
 function logger(req, res, next) {
@@ -29,10 +30,22 @@ function validateId(req, res, next) {
 }
 
 function validateAction(req, res, next) {
-    // DO YOUR MAGIC
     if (!req.body.project_id || !req.body.description || !req.body.notes) {
         res.status(400).json({ message: "missing a required field" })
     } else {
         next();
+    }
+}
+
+async function validateProjectID(req, res, next) {
+    const Projects = await projectsModel.getProjectActions(req.body.project_id);
+    //const found = Projects.some(p => { p.project_id === req.body.project_id })
+    //console.log("projects.some()", Projects)
+    if (Projects === undefined || Projects === null || Projects === []) {
+        res.status(404).json({ message: "That Project ID does not exist." })
+    } else {
+
+        next();
+
     }
 }

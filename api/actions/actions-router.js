@@ -1,6 +1,6 @@
 // Write your "actions" router here!
 //const { Router } = require('express');
-const { validateId, validateAction } = require('./actions-middlware');
+const { validateId, validateAction, validateProjectID } = require('./actions-middlware');
 const actionsModel = require("./actions-model")
 
 // Create Router by invoking router method
@@ -36,10 +36,8 @@ router.delete('/:id', validateId, async (req, res) => {
     }
 });
 
-
-// - [ ] `[POST] /api/actions`
-//   - When adding an action make sure the `project_id` provided belongs to an existing `project`.
-router.post('/', validateAction, async (req, res) => {
+// couldn't get validateProjectId to work right
+router.post('/', validateAction, validateProjectID, async (req, res) => {
     actionsModel
         .insert(req.body)
         .then((data) => {

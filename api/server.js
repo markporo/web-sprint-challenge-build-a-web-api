@@ -11,7 +11,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const actionRouter = require('./actions/actions-router');
-//const projectRouter = require("./projects/projects-router");
+const projectRouter = require("./projects/projects-router");
 const { logger } = require("./actions/actions-middlware");
 
 //third party middleware
@@ -25,7 +25,7 @@ server.use(logger);
 
 //connect routes
 server.use('/actions', actionRouter);
-//server.use('projects', projectRouter);
+server.use('/projects', projectRouter);
 
 // home page
 server.get('/', (req, res) => {
